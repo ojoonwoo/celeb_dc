@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>셀럽 DC</title>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/base.css">
+	<link rel="stylesheet" href="./css/style.css">
+<!--	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>-->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+	<!-- vue template -->
+	<template id="headerTemplate">
+		<div id="header">
+			<div class="inner">
+				<h1 class="logo">
+					<img src="./images/Celeb@2x.png" alt="CelebDC">
+				</h1>
+				<nav class="global-nav">
+					<ul>
+						<li>
+							<a href="javascript:void(0)" v-on:click="loginOut">Login</a>
+						</li>
+						<li>
+							<a href="#">About</a>
+						</li>
+						<li>
+							<a href="#">서비스 가이드</a>
+						</li>
+						<li>
+							<a href="#">FAQ</a>
+						</li>
+						<li>
+							<a href="#">광고주</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</template>
+	<template id="categoryTemplate">
+		<li class="cate">
+			<a :data-name="cateInfo.name" v-on:click="clickEvent(cateInfo.name, cateInfo.groupIdx)">
+				<span>{{ cateInfo.displayName }}</span>
+			</a>
+		</li>
+	</template>
+	<template id="categoryContainerTemplate">
+		<ul>
+			<category-component v-for="(cate, index) in cateList" v-bind:cate-info="cate" :key="cate.idx" v-on:cateclick="setCate"></category-component>
+		</ul>
+	</template>
+	<!-- vue template -->
+	<div id="app">
+		<div class="container">
+			<header-component></header-component>
+			<div class="content main" ref="contentBox">
+				<nav class="section-nav" ref="sectionNav">
+					<ul>
+						<li>
+							<a href="#" class="button" v-bind:class="[currentSection == 'discount' ? 'is-active' : '']">
+								<span>
+									<span>DISCOUNT</span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="button" v-bind:class="[currentSection == 'campaign' ? 'is-active' : '']">
+								<span>
+									<span>CAMPAIGN</span>
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="button" v-bind:class="[currentSection == 'index' ? 'is-active' : '']">
+								<span>
+									<span>HOME</span>
+								</span>
+							</a>
+						</li>
+						<span class="active-bar" ref="navActiveBar"></span>
+					</ul>
+				</nav>
+				<section class="index">
+					<div class="slider-frame">
+						<div class="slider">
+							<div class="slide">
+								<img src="./images/index_slide_01.png" alt="">
+							</div>
+						</div>
+					</div>
+					<div class="button-area">
+						<a href="javascript:void(0)" class="button black-border shadow line-motion">
+							<span>
+								<span>About 셀럽 D.C</span>
+							</span>
+						</a>
+						<span>or</span>
+						<a href="javascript:void(0)" class="button black-border shadow line-motion">
+							<span>
+								<span>혜택 받기 ></span>
+							</span>
+						</a>
+					</div>
+					<div class="scroll-down">
+						<span>Scroll</span>
+						<img class="arr1" src="./images/index_arrow_01.png" alt="">
+						<img class="arr2" src="./images/index_arrow_02.png" alt="">
+					</div>
+					<div class="copyright">Copyright © CelebD.C All Right Reserved.</div>
+					<div class="page-point"></div>
+				</section>
+				<section class="campaign">
+					<div class="title-area">
+						<h2><img src="./images/campaign_title.png" alt=""></h2>
+						<p>나보다 잘 나가는 강아지/고양이 계정</p>
+						<p>셀럽D.C에선 계정만 등록하면 누구나 무료협찬!</p>
+					</div>
+					<div class="campaign-list">
+						<div class="cate-wrap">
+							<category-container :cate-list="cateList1" class="cate-list _01"></category-container>
+							<category-container :cate-list="cateList2" class="cate-list _02"></category-container>
+<!--
+								<template v-for="(cate, index) in cateList1">
+									<li class="cate" :key="cate.idx">
+										<a :data-name="cate.name" v-on:click="setCate1">
+											<span>{{ cate.displayName }}</span>
+										</a>
+									</li>
+								</template>
+-->
+								
+							
+						</div>
+						<div class="orderby-wrap"></div>
+						<div class="list-container">
+							<ul>
+								<li></li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section class="discount">
+					
+				</section>
+			</div>
+		</div>
+	</div>
+	<script>
+		Vue.component('header-component', {
+			template: '#headerTemplate',
+			methods: {
+				loginOut: function() {
+//					console.log(this.login);
+					console.log('asd');
+				}
+			}
+	  	})
+		
+		Vue.component('category-component', {
+			template: '#categoryTemplate',
+			props: [ 'cateInfo' ],
+			methods: {
+				clickEvent: function(name, group) {
+//					console.log('click event fired');
+					this.$emit('cateclick', name, group);
+				}
+			},
+			mounted: function() {
+			}
+		})
+		Vue.component('category-container', {
+			template: '#categoryContainerTemplate',
+			props: [ 'cateList' ],
+			data() {
+				return { }
+			},
+			methods: {
+				setCate: function(selectedName, selectedGroupIdx) {
+//					console.log("event fired from child");
+					console.log('선택된 카테고리명: '+selectedName);
+					console.log('선택된 카테고리 그룹 인덱스: '+selectedGroupIdx);
+				}
+			},
+			created: function() {
+			}
+		})
+
+		
+//		var cateContainer = new Vue({
+//			el: '#cate-container',
+//			data() {
+//				return {
+//					selectedCate1: 'All',
+//					selectedCate2: 'All',
+//					cateList1: [
+//						{ idx: 1, name: 'all', displayName: 'All' },
+//						{ idx: 2, name: 'dog', displayName: '강아지' },
+//						{ idx: 3, name: 'cat', displayName: '고양이' }
+//					],
+//					cateList2: [
+//						{ idx: 1, name: 'all', displayName: 'All' },
+//						{ idx: 2, name: 'fashion', displayName: '패션' },
+//						{ idx: 3, name: 'goout', displayName: '외출' },
+//						{ idx: 4, name: 'house', displayName: '하우스' },
+//						{ idx: 5, name: 'kitchen', displayName: '키친' },
+//						{ idx: 6, name: 'food', displayName: '푸드' },
+//						{ idx: 7, name: 'grooming/clean', displayName: '그루밍/위생' },
+//						{ idx: 8, name: 'toy', displayName: '장난감' },
+//						{ idx: 9, name: 'book', displayName: '서적' },
+//						{ idx: 10, name: 'test', displayName: '체험권' }
+//					]
+//				}
+//			},
+//			methods: {
+//				setCate1: function () {
+//					console.log(this.selectedCate1);
+//				},
+//				exampleFunction: function () {
+//					console.log('This is an example function');
+//				},
+//				hello: function() {
+//					console.log('hello');
+//				}
+//			},
+//			created: function() {
+////				데이터 가져와서 카테고리 세팅
+//				console.log('created');
+////				console.log(this.cateList1);
+////				console.log(this.cateList2);
+//			},
+//			mounted: function() {
+//				console.log('mounted');
+//			}
+//		})
+		
+		
+//		var campaignContainer = new Vue({
+//			el: '#campaign-list',
+//			data() {
+//				return {
+//					itemCount: 6,
+//					//					items: [
+//					//						
+//					//					]
+//				}
+//			},
+//			created: function() {
+////				console.log("asd");
+//			},
+//			methods: {
+//				
+//			}
+//		})
+
+			
+		var app = new Vue({
+			el: '#app',
+			data() {
+				return {
+					scrollY: 0,
+					sectionPosition: [],
+					sectionNavPosition: [],
+					sectionNavWidth: [],
+					currentSection: 'index',
+					selectedCate1: 'All',
+					selectedCate2: 'All',
+					cateList1: [
+						{ idx: 1, groupIdx: 1, name: 'all', displayName: 'All' },
+						{ idx: 2, groupIdx: 1, name: 'dog', displayName: '강아지' },
+						{ idx: 3, groupIdx: 1, name: 'cat', displayName: '고양이' }
+					],
+					cateList2: [
+						{ idx: 1, groupIdx: 2, name: 'all', displayName: 'All' },
+						{ idx: 2, groupIdx: 2, name: 'fashion', displayName: '패션' },
+						{ idx: 3, groupIdx: 2, name: 'goout', displayName: '외출' },
+						{ idx: 4, groupIdx: 2, name: 'house', displayName: '하우스' },
+						{ idx: 5, groupIdx: 2, name: 'kitchen', displayName: '키친' },
+						{ idx: 6, groupIdx: 2, name: 'food', displayName: '푸드' },
+						{ idx: 7, groupIdx: 2, name: 'grooming/clean', displayName: '그루밍/위생' },
+						{ idx: 8, groupIdx: 2, name: 'toy', displayName: '장난감' },
+						{ idx: 9, groupIdx: 2, name: 'book', displayName: '서적' },
+						{ idx: 10, groupIdx: 2, name: 'test', displayName: '체험권' }
+					]
+				}
+				
+			},
+			methods: {
+				handleScroll: function(event) {
+					this.scrollY = window.scrollY;
+//					console.log(this.scrollY);
+					if(this.scrollY >= this.sectionPosition[0] && this.scrollY < this.sectionPosition[1]) {
+						this.currentSection = 'index';
+						this.$refs.navActiveBar.setAttribute('style', 'left:'+this.$refs.sectionNav.querySelectorAll('li')[2].offsetLeft+'px; width:'+this.$refs.sectionNav.querySelectorAll('li')[2].offsetWidth+'px');
+					} else if(this.scrollY >= this.sectionPosition[1] && this.scrollY < this.sectionPosition[2]){
+						this.currentSection = 'campaign';
+						this.$refs.navActiveBar.setAttribute('style', 'left:'+this.$refs.sectionNav.querySelectorAll('li')[1].offsetLeft+'px; width:'+this.$refs.sectionNav.querySelectorAll('li')[1].offsetWidth+'px');
+					} else {
+						this.currentSection = 'discount';
+						this.$refs.navActiveBar.setAttribute('style', 'left:'+this.$refs.sectionNav.querySelectorAll('li')[0].offsetLeft+'px; width:'+this.$refs.sectionNav.querySelectorAll('li')[0].offsetWidth+'px');
+					}
+				},
+				setCate1: function() {
+					console.log("asd");
+				}
+			},
+			created: function() {
+//				console.log("created");
+				window.addEventListener('scroll', this.handleScroll);
+			},
+			mounted: function() {
+				this.$nextTick(function() {
+					this.$refs.contentBox.querySelectorAll('section').forEach( el => {
+						this.sectionPosition.push(el.offsetTop);
+					});
+//					this.$refs.sectionNav.querySelectorAll('li').forEach( el => {
+//						this.sectionNavPosition.push(el.offsetLeft);
+//						this.sectionNavWidth.push(el.offsetWidth);
+//					});
+				});
+//				console.log("섹션위치:"+this.sectionPosition);
+//				console.log("넓이:"+this.sectionNavWidth);
+//				console.log("위치:"+this.sectionNavPosition);
+			},
+			beforeUpdate: function() {
+				console.log("beforeUpdate");
+			},
+			updated: function() {
+				console.log("updated");
+			},
+			destroyed: function() {
+//				console.log("destroyed");
+				window.removeEventListener('scroll', this.handleScroll);
+			}
+		})
+		
+		
+	</script>
+</body>
+</html>
