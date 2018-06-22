@@ -48,7 +48,7 @@
 	</template>
 	<template id="categoryContainerTemplate">
 		<ul>
-			<category-component v-for="(cate, index) in cateList" v-bind:cate-info="cate" :key="cate.idx" v-on:cateclick="setCate"></category-component>
+			<category-component v-for="(cate, index, idx) in cateList" v-bind:cate-info="cate" :key="cate.idx" v-on:cateclick="setCate"></category-component>
 		</ul>
 	</template>
 	<!-- vue template -->
