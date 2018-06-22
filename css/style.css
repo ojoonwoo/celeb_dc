@@ -151,10 +151,16 @@ section.campaign .cate-wrap {
 section.campaign .cate-wrap .cate {
 	display: inline-block;
 	width: 120px;
+	margin-right: 11px;
 	border: 1px solid #ffffff;
 	background: #ff995b;
-	margin-right: 11px;
+	color: #ffffff;
 	cursor: pointer;
+	transition: all 0.15s ease;
+}
+section.campaign .cate-wrap .cate.is-active {
+	background: #ffffff;
+	color: #ff8840;
 }
 section.campaign .cate-wrap .cate:last-child {
 	margin-right: 0;
@@ -167,7 +173,6 @@ section.campaign .cate-wrap .cate a span {
 	display: inline-block;
 	padding: 15px 0;
 	font-size: 18px;
-	color: #ffffff;
 }
 section.campaign .cate-wrap .cate-list._02 {
 	margin: 24px 0 41px;
