@@ -41,7 +41,7 @@
 	</template>
 	<template id="categoryTemplate">
 		<li class="cate">
-			<a :data-name="cateInfo.name" v-on:click="clickEvent(cateInfo.name, cateInfo.groupIdx)">
+			<a :data-name="cateInfo.name" v-on:click="clickEvent(cateInfo.name, cateInfo.groupIdx, cateInfo.idx)">
 				<span>{{ cateInfo.displayName }}</span>
 			</a>
 		</li>
