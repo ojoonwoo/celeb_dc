@@ -120,7 +120,7 @@
 					</div>
 					<div class="campaign-list">
 						<div class="cate-wrap">
-							<category-container :cate-list="cateList1" class="cate-list _01" ref="cateList1"></category-container>
+							<category-container :cate-list="cateList1" class="cate-list _01"></category-container>
 							<category-container :cate-list="cateList2" class="cate-list _02"></category-container>
 <!--
 								<template v-for="(cate, index) in cateList1">
@@ -188,15 +188,58 @@
 			template: '#categoryContainerTemplate',
 			props: [ 'cateList' ],
 			data() {
-				return { }
+				return {
+					selectedCate1: 'all',
+					selectedCate2: ['all']
+				}
 			},
 			methods: {
 				setCate: function(selectedIdx, selectedName, selectedGroupIdx) {
+					this.selectedCate1 = selectedName;
+					var cate2DuplChk = false;
 					var selected = this.$children[selectedIdx-1];
-					this.$children.forEach( el => {
-						el.$el.classList.remove('is-active');
-					});
-					selected.$el.classList.add('is-active')
+					if(selectedGroupIdx == 2) {
+//						다중 선택 카테고리
+						if(selectedName == 'all') {
+							this.$children.forEach( el => {
+								el.$el.classList.remove('is-active');
+							});
+							this.$el.children[0].classList.add('is-active');
+							this.selectedCate2 = ['all'];
+						} else {
+							this.selectedCate2.forEach( val => {
+								if(val.match('all')) {
+									this.selectedCate2.pop(val);
+									this.$el.children[0].classList.remove('is-active');
+								} else {
+									if(val == selectedName) {
+										this.selectedCate2.pop(val);
+//								동일 카테고리 선택!
+										cate2DuplChk = true;
+									}
+								}
+							});
+							if(cate2DuplChk) {
+//								동일카테고리 선택 시
+								selected.$el.classList.remove('is-active')
+							} else {
+								this.selectedCate2.push(selectedName);
+								selected.$el.classList.add('is-active')
+							}
+							
+							if(this.selectedCate2.length<1) {
+//								선택된 카테고리 없음 / all로 초기화
+								this.selectedCate2 = ['all'];
+							}
+						}
+						console.log(this.selectedCate2);
+					} else {
+//						단일 선택 카테고리
+						this.$children.forEach( el => {
+							el.$el.classList.remove('is-active');
+						});
+						selected.$el.classList.add('is-active')
+					}
 //					console.log("event fired from child");
 					console.log('선택된 카테고리 인덱스: '+selectedIdx);
 					console.log('선택된 카테고리명: '+selectedName);
@@ -204,6 +247,8 @@
 				}
 			},
 			created: function() {
+//				console.log(this.selectedCate1);
+//				console.log(this.selectedCate2);
 			},
 			mounted: function() {
 				this.$children[0].$el.classList.add('is-active')
@@ -287,8 +332,8 @@
 					sectionNavPosition: [],
 					sectionNavWidth: [],
 					currentSection: 'index',
-					selectedCate1: 'All',
-					selectedCate2: 'All',
+//					selectedCate1: 'All',
+//					selectedCate2: 'All',
 					cateList1: [
 						{ idx: 1, groupIdx: 1, name: 'all', displayName: 'All' },
 						{ idx: 2, groupIdx: 1, name: 'dog', displayName: '강아지' },
