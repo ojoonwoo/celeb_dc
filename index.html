@@ -19,25 +19,76 @@
 				</h1>
 				<nav class="global-nav">
 					<ul>
-						<li>
-							<a href="javascript:void(0)" v-on:click="loginOut">Login</a>
+						<li style="width:40px;">
+							<a class="button line-motion" href="javascript:void(0)" v-on:click="loginOut">
+								<span>
+									<span>Login</span>
+								</span>
+							</a>
+						</li>
+						<li style="width:43px;">
+							<a class="button line-motion" href="#">
+								<span>
+									<span>About</span>
+								</span>
+							</a>
+						</li>
+						<li style="width:85px;">
+							<a class="button line-motion" href="#">
+								<span>
+									<span>서비스 가이드</span>
+								</span>
+							</a>
+						</li>
+						<li style="width:31px;">
+							<a class="button line-motion" href="#">
+								<span>
+									<span>FAQ</span>
+								</span>
+							</a>
 						</li>
 						<li>
-							<a href="#">About</a>
-						</li>
-						<li>
-							<a href="#">서비스 가이드</a>
-						</li>
-						<li>
-							<a href="#">FAQ</a>
-						</li>
-						<li>
-							<a href="#">광고주</a>
+							<a class="" href="#">
+								<span>광고주</span>
+							</a>
 						</li>
 					</ul>
 				</nav>
 			</div>
 		</div>
+	</template>
+	<template id="campaignTemplate">
+		<li class="campaignEl">
+			<div class="frame">
+				<a href="#">
+					<img v-bind:src="campaignInfo.imgSrc" alt="" width="100%">
+				</a>
+				<div class="front-info">
+					<div class="dday">D-<span>{{ calcDday }}</span></div>
+					<div class="badge">
+						<span></span>
+						<span class="type" v-bind:class="campaignInfo.type"></span>
+					</div>
+					<div class="status">
+						<span></span>
+						<span></span>
+						<div class="gage"></div>
+					</div>
+				</div>
+				<div class="hover">
+					<div class="title">{{ campaignInfo.title }}</div>
+					<div class="desc">{{ campaignInfo.desc }}</div>
+				</div>
+			</div>
+		</li>
+	</template>
+	<template id="campaignContainerTemplate">
+		<ul>
+			<campaign-component v-for="(campaign, index) in campaignList" v-bind:campaign-info="campaign" :key="campaign.idx" v-on:campaignClick=""></campaign-component>
+		</ul>
+	</template>
+	<template id="orderbyTemplate">
+		<a class="orderby" href="javacript:void(0)" v-bind:class="{ 'is-active' : activeOrderbyName === orderby }" v-on:click="clickEvent(orderby)">{{ orderby }}</a>
 	</template>
 	<template id="categoryTemplate">
 		<!--	v-bind:class="activeIndex == cateInfo.idx ? 'is-active' : ''"-->
@@ -49,7 +100,7 @@
 	</template>
 	<template id="categoryContainerTemplate">
 		<ul>
-			<category-component v-for="(cate, index) in cateList" v-bind:cate-info="cate" :key="cate.idx" v-on:cateclick="setCate"></category-component>
+			<category-component v-for="(cate, index) in cateList" v-bind:cate-info="cate" :key="cate.idx" v-on:cate-click="setCate"></category-component>
 		</ul>
 	</template>
 	<!-- vue template -->
@@ -94,7 +145,7 @@
 					<div class="button-area">
 						<a href="javascript:void(0)" class="button black-border shadow line-motion">
 							<span>
-								<span>About 셀럽 D.C</span>
+								<span>About 셀럽디씨</span>
 							</span>
 						</a>
 						<span>or</span>
@@ -122,28 +173,19 @@
 						<div class="cate-wrap">
 							<category-container :cate-list="cateList1" class="cate-list _01"></category-container>
 							<category-container :cate-list="cateList2" class="cate-list _02"></category-container>
-<!--
-								<template v-for="(cate, index) in cateList1">
-									<li class="cate" :key="cate.idx">
-										<a :data-name="cate.name" v-on:click="setCate1">
-											<span>{{ cate.displayName }}</span>
-										</a>
-									</li>
-								</template>
--->
-								
-							
 						</div>
-						<div class="orderby-wrap"></div>
-						<div class="list-container">
+						<div class="orderby-wrap">
+							<orderby-component orderby="등록순"></orderby-component>
+							<orderby-component orderby="인기순"></orderby-component>
+						</div>
+						<div class="list-container campaign">
 							<ul>
-								<li></li>
+								<campaign-container :campaign-list="campaignList"></campaign-container>
 							</ul>
 						</div>
 					</div>
 				</section>
 				<section class="discount">
-					
 				</section>
 			</div>
 		</div>
@@ -159,8 +201,64 @@
 			}
 	  	})
 		
+		Vue.component('campaign-component', {
+			template: '#campaignTemplate',
+			props: [ 'campaignInfo' ],
+			data() {
+				return {
+					
+				}
+			},
+			computed: {
+				calcDday: function() {
+					var now = new Date(),
+						currDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+						end = new Date(this.campaignInfo.dateEnd),
+						diff = (end.getTime() - currDay.getTime()) / (1000*60*60*24);
+					return parseInt(diff);
+				},
+				calcGage: function() {
+
+				}
+			},
+			mounted: function() {
+				console.log(this.campaignInfo);
+			}
+		})
 		
-//		var shareData = { activeIndex: 1 };
+		Vue.component('campaign-container', {
+			template: '#campaignContainerTemplate',
+			props: [ 'campaignList' ],
+			data() {
+				return {
+//					campaignInfo: this.campaignList
+				}
+			},
+			created: function() {
+				
+			},
+			mounted: function() {
+			}
+		})
+		
+		var orderByData = { activeOrderbyName: '등록순' };
+		Vue.component('orderby-component', {
+			template: '#orderbyTemplate',
+			props: [ 'orderby' ],
+			data() {
+				return orderByData;
+			},
+			methods: {
+				clickEvent: function(orderBy) {
+					this.activeOrderbyName = orderBy;
+//					console.log(this.activeOrderbyName);
+				}
+			},
+			mounted: function() {
+//				console.log(orderByData.activeOrderbyName);
+			}
+		})
+		
 		Vue.component('category-component', {
 			template: '#categoryTemplate',
 			props: [ 'cateInfo' ],
@@ -175,7 +273,7 @@
 					this.activeIndex = idx;
 					console.log(this.activeIndex);
 //					console.log('click event fired');
-					this.$emit('cateclick', idx, name, group);
+					this.$emit('cate-click', idx, name, group);
 				}
 			},
 			mounted: function() {
@@ -231,6 +329,7 @@
 								this.selectedCate2.push(selectedIdx);
 								selected.$el.classList.add('is-active')
 							}
+
 							
 							if(this.selectedCate2.length<1) {
 //								선택된 카테고리 없음 / all로 초기화
@@ -262,72 +361,6 @@
 		})
 
 		
-//		var cateContainer = new Vue({
-//			el: '#cate-container',
-//			data() {
-//				return {
-//					selectedCate1: 'All',
-//					selectedCate2: 'All',
-//					cateList1: [
-//						{ idx: 1, name: 'all', displayName: 'All' },
-//						{ idx: 2, name: 'dog', displayName: '강아지' },
-//						{ idx: 3, name: 'cat', displayName: '고양이' }
-//					],
-//					cateList2: [
-//						{ idx: 1, name: 'all', displayName: 'All' },
-//						{ idx: 2, name: 'fashion', displayName: '패션' },
-//						{ idx: 3, name: 'goout', displayName: '외출' },
-//						{ idx: 4, name: 'house', displayName: '하우스' },
-//						{ idx: 5, name: 'kitchen', displayName: '키친' },
-//						{ idx: 6, name: 'food', displayName: '푸드' },
-//						{ idx: 7, name: 'grooming/clean', displayName: '그루밍/위생' },
-//						{ idx: 8, name: 'toy', displayName: '장난감' },
-//						{ idx: 9, name: 'book', displayName: '서적' },
-//						{ idx: 10, name: 'test', displayName: '체험권' }
-//					]
-//				}
-//			},
-//			methods: {
-//				setCate1: function () {
-//					console.log(this.selectedCate1);
-//				},
-//				exampleFunction: function () {
-//					console.log('This is an example function');
-//				},
-//				hello: function() {
-//					console.log('hello');
-//				}
-//			},
-//			created: function() {
-////				데이터 가져와서 카테고리 세팅
-//				console.log('created');
-////				console.log(this.cateList1);
-////				console.log(this.cateList2);
-//			},
-//			mounted: function() {
-//				console.log('mounted');
-//			}
-//		})
-		
-		
-//		var campaignContainer = new Vue({
-//			el: '#campaign-list',
-//			data() {
-//				return {
-//					itemCount: 6,
-//					//					items: [
-//					//						
-//					//					]
-//				}
-//			},
-//			created: function() {
-////				console.log("asd");
-//			},
-//			methods: {
-//				
-//			}
-//		})
-
 			
 		var app = new Vue({
 			el: '#app',
@@ -341,12 +374,12 @@
 //					selectedCate1: 'All',
 //					selectedCate2: 'All',
 					cateList1: [
-						{ idx: 1, groupIdx: 1, name: 'all', displayName: 'All' },
+						{ idx: 1, groupIdx: 1, name: 'all', displayName: 'ALL' },
 						{ idx: 2, groupIdx: 1, name: 'dog', displayName: '강아지' },
 						{ idx: 3, groupIdx: 1, name: 'cat', displayName: '고양이' }
 					],
 					cateList2: [
-						{ idx: 1, groupIdx: 2, name: 'all', displayName: 'All' },
+						{ idx: 1, groupIdx: 2, name: 'all', displayName: 'ALL' },
 						{ idx: 2, groupIdx: 2, name: 'fashion', displayName: '패션' },
 						{ idx: 3, groupIdx: 2, name: 'goout', displayName: '외출' },
 						{ idx: 4, groupIdx: 2, name: 'house', displayName: '하우스' },
@@ -356,6 +389,12 @@
 						{ idx: 8, groupIdx: 2, name: 'toy', displayName: '장난감' },
 						{ idx: 9, groupIdx: 2, name: 'book', displayName: '서적' },
 						{ idx: 10, groupIdx: 2, name: 'test', displayName: '체험권' }
+					],
+					campaignList: [
+						{ idx: 1, type: 'dog', dateStart: '2018/06/25', dateEnd: '2018/06/30', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+						{ idx: 2, type: 'cat', dateStart: '2018/06/21', dateEnd: '2018/06/28', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+						{ idx: 3, type: 'cat', dateStart: '2018/06/23', dateEnd: '2018/06/25', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+						{ idx: 4, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/06/26', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' }
 					]
 				}
 				

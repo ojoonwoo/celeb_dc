@@ -7,7 +7,8 @@
 	z-index: 100;
 }
 #header .inner {
-	width: 1210px;
+/*	width: 1210px;*/
+	width: 1456px;
 	margin: 0 auto;
 	padding: 41px 20px;
 	position: relative;
@@ -31,6 +32,7 @@
 	display: inline-block;
 	font-size: 15px;
 	margin-right: 48px;
+	text-align: center;
 }
 #header .global-nav ul li:last-child {
 	margin-right: 0;
@@ -39,11 +41,19 @@
 #header .global-nav ul li a {
 	display: block;
 }
+#header .global-nav ul li .button.line-motion > span:before {
+	background: #ff906a;
+	bottom: 0;
+}
 #header .global-nav ul li:last-child a {
 	padding: 7px 42px;
 	font-weight: 700;
 	border: 3px solid #221815;
 }
+#header .global-nav ul li a:hover span {
+	font-weight: 700;
+}
+
 .content.main section {
 	position: relative;
 }
@@ -55,7 +65,7 @@ section.index {
 	z-index: 2;
 }
 section.index .slider-frame {
-	width: 1037px;
+/*	width: 1037px;*/
 	margin: 0 auto;
 }
 section.index .button-area {
@@ -141,7 +151,8 @@ section.campaign .title-area p:last-child {
 	font-weight: 400;
 }
 section.campaign .campaign-list {
-	width: 1040px;
+/*	width: 1040px;*/
+	width: 1277px;
 	margin: 0 auto;
 }
 section.campaign .cate-wrap {
@@ -150,8 +161,8 @@ section.campaign .cate-wrap {
 }
 section.campaign .cate-wrap .cate {
 	display: inline-block;
-	width: 120px;
-	margin-right: 11px;
+	width: 167px;
+	margin-right: 23px;
 	border: 1px solid #ffffff;
 	background: #ff995b;
 	color: #ffffff;
@@ -161,9 +172,10 @@ section.campaign .cate-wrap .cate {
 section.campaign .cate-wrap .cate.is-active {
 	background: #ffffff;
 	color: #ff8840;
+	font-weight: 700;
 }
 section.campaign .cate-wrap .cate:last-child {
-	margin-right: 0;
+	margin-right: 0 !important;
 }
 section.campaign .cate-wrap .cate a {
 	display: block;
@@ -172,17 +184,90 @@ section.campaign .cate-wrap .cate a {
 section.campaign .cate-wrap .cate a span {
 	display: inline-block;
 	padding: 15px 0;
-	font-size: 18px;
+	font-size: 24px;
 }
 section.campaign .cate-wrap .cate-list._02 {
 	margin: 24px 0 41px;
 }
 section.campaign .cate-wrap .cate-list._02 .cate {
-	width: 95px;
-	margin-right: 9px;
+	width: 118px;
+	margin-right: 10px;
 }
 section.campaign .cate-wrap .cate-list._02 .cate a span {
-	font-size: 15px;
+	font-size: 20px;
+}
+section.campaign .orderby-wrap {
+	text-align: center;
+	font-size: 0;
+	padding-bottom: 19px;
+	border-bottom: 1px solid #ffffff;
+}
+section.campaign .orderby-wrap a {
+	display: inline-block;
+	padding: 0 20px;
+	font-size: 20px;
+	color: #ffffff;
+}
+section.campaign .orderby-wrap a.is-active {
+	font-weight: 700;
+}
+section.campaign .list-container.campaign {
+	padding: 33px 0;
+	font-size: 0;
+}
+section.campaign .list-container.campaign .campaignEl {
+	display: inline-block;
+	width: 297px;
+	height: 407px;
+	margin-right: 29px;
+}
+section.campaign .list-container.campaign .campaignEl:nth-of-type(4n) {
+	margin-right: 0;
+}
+section.campaign .list-container.campaign .campaignEl .frame {
+	position: relative;
+	cursor: pointer;
+}
+section.campaign .list-container.campaign .campaignEl .frame .front-info {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+section.campaign .list-container.campaign .campaignEl .frame .front-info .dday {
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	font-size: 30px;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+}
+section.campaign .list-container.campaign .campaignEl .frame .front-info .badge {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	font-size: 0;
+}
+section.campaign .list-container.campaign .campaignEl .frame .front-info .badge span {
+	display: inline-block;
+	width: 49px;
+	height: 49px;
+	margin-right: 8px;
+	background: #ff8840;
+	border-radius: 50%;
+	vertical-align: middle;
+	font-size: 25px;
+	font-weight: 700;
+}
+section.campaign .list-container.campaign .campaignEl .frame .front-info .badge span.dog {
+	background: url(../images/dog@2x.png) center / 36px 26px no-repeat #ff8840;
+}
+section.campaign .list-container.campaign .campaignEl .frame .front-info .badge span.cat {
+	background: url(../images/cat@2x.png) center / 25px 26px no-repeat #ff8840;
+}
+section.campaign .list-container.campaign .campaignEl .frame .front-info .badge span:last-child {
+	margin-right: 0;
 }
 
 .content.main .section-nav {
@@ -190,7 +275,7 @@ section.campaign .cate-wrap .cate-list._02 .cate a span {
 	top: 50%;
 	left: 50%;
 	transform: rotate(-90deg);
-	margin: -40px 0 0 -748px;
+	margin: -40px 0 0 -890px;
 	z-index: 99;
 }
 .content.main .section-nav ul {
