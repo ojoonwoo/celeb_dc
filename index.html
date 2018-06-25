@@ -40,8 +40,9 @@
 		</div>
 	</template>
 	<template id="categoryTemplate">
+		<!--	v-bind:class="activeIndex == cateInfo.idx ? 'is-active' : ''"-->
 		<li class="cate">
-			<a :data-name="cateInfo.name" v-on:click="clickEvent(cateInfo.name, cateInfo.groupIdx, cateInfo.idx)">
+			<a :data-name="cateInfo.name" v-on:click="clickEvent(cateInfo.idx, cateInfo.name, cateInfo.groupIdx)">
 				<span>{{ cateInfo.displayName }}</span>
 			</a>
 		</li>
@@ -119,7 +120,7 @@
 					</div>
 					<div class="campaign-list">
 						<div class="cate-wrap">
-							<category-container :cate-list="cateList1" class="cate-list _01"></category-container>
+							<category-container :cate-list="cateList1" class="cate-list _01" ref="cateList1"></category-container>
 							<category-container :cate-list="cateList2" class="cate-list _02"></category-container>
 <!--
 								<template v-for="(cate, index) in cateList1">
@@ -158,16 +159,29 @@
 			}
 	  	})
 		
+		
+//		var shareData = { activeIndex: 1 };
 		Vue.component('category-component', {
 			template: '#categoryTemplate',
 			props: [ 'cateInfo' ],
+			data() {
+//				return shareData;
+				return {
+					activeIndex: 0
+				}
+			},
 			methods: {
-				clickEvent: function(name, group, idx) {
+				clickEvent: function(idx, name, group) {
+					this.activeIndex = idx;
+					console.log(this.activeIndex);
 //					console.log('click event fired');
-					this.$emit('cateclick', name, group, idx);
+					this.$emit('cateclick', idx, name, group);
 				}
 			},
 			mounted: function() {
+			},
+			beforeUpdate: function() {
+//				console.log(this);
 			}
 		})
 		Vue.component('category-container', {
@@ -177,14 +191,22 @@
 				return { }
 			},
 			methods: {
-				setCate: function(selectedName, selectedGroupIdx, selectedIdx) {
+				setCate: function(selectedIdx, selectedName, selectedGroupIdx) {
+					var selected = this.$children[selectedIdx-1];
+					this.$children.forEach( el => {
+						el.$el.classList.remove('is-active');
+					});
+					selected.$el.classList.add('is-active')
 //					console.log("event fired from child");
+					console.log('선택된 카테고리 인덱스: '+selectedIdx);
 					console.log('선택된 카테고리명: '+selectedName);
 					console.log('선택된 카테고리 그룹 인덱스: '+selectedGroupIdx);
-					console.log('선택된 카테고리 인덱스: '+selectedIdx);
 				}
 			},
 			created: function() {
+			},
+			mounted: function() {
+				this.$children[0].$el.classList.add('is-active')
 			}
 		})
 
@@ -301,9 +323,6 @@
 						this.currentSection = 'discount';
 						this.$refs.navActiveBar.setAttribute('style', 'left:'+this.$refs.sectionNav.querySelectorAll('li')[0].offsetLeft+'px; width:'+this.$refs.sectionNav.querySelectorAll('li')[0].offsetWidth+'px');
 					}
-				},
-				setCate1: function() {
-					console.log("asd");
 				}
 			},
 			created: function() {
