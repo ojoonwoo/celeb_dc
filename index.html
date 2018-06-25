@@ -190,7 +190,8 @@
 			data() {
 				return {
 					selectedCate1: 'all',
-					selectedCate2: ['all']
+					// selectedCate2: ['all']
+					selectedCate2: ['1']
 				}
 			},
 			methods: {
@@ -205,10 +206,13 @@
 								el.$el.classList.remove('is-active');
 							});
 							this.$el.children[0].classList.add('is-active');
-							this.selectedCate2 = ['all'];
+							// this.selectedCate2 = ['all'];
+							this.selectedCate2 = ['1'];
 						} else {
 							this.selectedCate2.forEach( val => {
-								if(val.match('all')) {
+								console.log("val: "+val);
+								// if(val.match('all')) {
+								if(val == '1') {
 									this.selectedCate2.pop(val);
 									this.$el.children[0].classList.remove('is-active');
 								} else {
@@ -223,13 +227,15 @@
 //								동일카테고리 선택 시
 								selected.$el.classList.remove('is-active')
 							} else {
-								this.selectedCate2.push(selectedName);
+								// this.selectedCate2.push(selectedName);
+								this.selectedCate2.push(selectedIdx);
 								selected.$el.classList.add('is-active')
 							}
 							
 							if(this.selectedCate2.length<1) {
 //								선택된 카테고리 없음 / all로 초기화
-								this.selectedCate2 = ['all'];
+								// this.selectedCate2 = ['all'];
+								this.selectedCate2 = ['1'];
 							}
 						}
 						console.log(this.selectedCate2);
