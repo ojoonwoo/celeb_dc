@@ -94,7 +94,7 @@
 		<!--	v-bind:class="activeIndex == cateInfo.idx ? 'is-active' : ''"-->
 		<li class="cate">
 			<a :data-name="cateInfo.name" v-on:click="clickEvent(cateInfo.idx, cateInfo.name, cateInfo.groupIdx)">
-				<span>{{ cateInfo.displayName }}</span>
+				<span v-bind:class="cateInfo.name">{{ cateInfo.displayName }}</span>
 			</a>
 		</li>
 	</template>
@@ -315,15 +315,16 @@
 									this.$el.children[0].classList.remove('is-active');
 								} else {
 									if(val == selectedName) {
-										this.selectedCate2.pop(val);
 //								동일 카테고리 선택!
 										cate2DuplChk = true;
+										this.selectedCate2.splice(this.selectedCate2.indexOf(selectedName),1);
 									}
 								}
 							});
 							if(cate2DuplChk) {
 //								동일카테고리 선택 시
 								selected.$el.classList.remove('is-active')
+								cate2DuplChk = false;
 							} else {
 								// this.selectedCate2.push(selectedName);
 								this.selectedCate2.push(selectedIdx);
@@ -346,9 +347,9 @@
 						selected.$el.classList.add('is-active')
 					}
 //					console.log("event fired from child");
-					console.log('선택된 카테고리 인덱스: '+selectedIdx);
-					console.log('선택된 카테고리명: '+selectedName);
-					console.log('선택된 카테고리 그룹 인덱스: '+selectedGroupIdx);
+//					console.log('선택된 카테고리 인덱스: '+selectedIdx);
+//					console.log('선택된 카테고리명: '+selectedName);
+//					console.log('선택된 카테고리 그룹 인덱스: '+selectedGroupIdx);
 				}
 			},
 			created: function() {
@@ -434,10 +435,10 @@
 //				console.log("위치:"+this.sectionNavPosition);
 			},
 			beforeUpdate: function() {
-				console.log("beforeUpdate");
+//				console.log("beforeUpdate");
 			},
 			updated: function() {
-				console.log("updated");
+//				console.log("updated");
 			},
 			destroyed: function() {
 //				console.log("destroyed");
