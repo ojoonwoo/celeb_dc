@@ -182,10 +182,30 @@ section.campaign .cate-wrap .cate a {
 	font-size: 0;
 }
 section.campaign .cate-wrap .cate a span {
+	position: relative;
 	display: inline-block;
 	padding: 15px 0;
 	font-size: 24px;
 }
+section.campaign .cate-wrap .cate a span:after {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 8px;
+}
+section.campaign .cate-wrap .cate a span.dog:after {
+	width: 36px;
+	height: 26px;
+	background: url(../images/dog@2x.png) center / 36px 26px no-repeat;
+	vertical-align: middle;
+}
+section.campaign .cate-wrap .cate a span.cat:after {
+	width: 25px;
+	height: 26px;
+	background: url(../images/cat@2x.png) center / 25px 26px no-repeat;
+}
+section.campaign .cate-wrap .cate.is-active a span.dog:after {background: url(../images/dog@2x_orange.png) center / 36px 26px no-repeat;}
+section.campaign .cate-wrap .cate.is-active a span.cat:after {background: url(../images/cat@2x_orange.png) center / 25px 26px no-repeat;}
 section.campaign .cate-wrap .cate-list._02 {
 	margin: 24px 0 41px;
 }
