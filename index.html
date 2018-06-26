@@ -64,7 +64,7 @@
 					<img v-bind:src="campaignInfo.imgSrc" alt="" width="100%">
 				</a>
 				<div class="front-info">
-					<div class="dday">D-<span>{{ calcDday }}</span></div>
+					<div class="dday"><span>{{ calcDday }}</span></div>
 					<div class="badge">
 						<span></span>
 						<span class="type" v-bind:class="campaignInfo.type"></span>
@@ -214,8 +214,15 @@
 					var now = new Date(),
 						currDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()),
 						end = new Date(this.campaignInfo.dateEnd),
-						diff = (end.getTime() - currDay.getTime()) / (1000*60*60*24);
-					return parseInt(diff);
+						diff = (end.getTime() - currDay.getTime()) / (1000*60*60*24),
+						dday = "";
+						if(diff<1) {
+							dday = "마감";
+						}else{
+							dday = "D-"+parseInt(diff);
+						}
+					
+					return dday;
 				},
 				calcGage: function() {
 
