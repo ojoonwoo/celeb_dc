@@ -317,10 +317,12 @@
 									this.selectedCate2.pop(val);
 									this.$el.children[0].classList.remove('is-active');
 								} else {
-									if(val == selectedName) {
+									// if(val == selectedName) {
+									if(val == selectedIdx) {
 //								동일 카테고리 선택!
 										cate2DuplChk = true;
-										this.selectedCate2.splice(this.selectedCate2.indexOf(selectedName),1);
+										// this.selectedCate2.splice(this.selectedCate2.indexOf(selectedName),1);
+										this.selectedCate2.splice(this.selectedCate2.indexOf(selectedIdx),1);
 									}
 								}
 							});
