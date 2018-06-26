@@ -64,15 +64,35 @@
 					<img v-bind:src="campaignInfo.imgSrc" alt="" width="100%">
 				</a>
 				<div class="front-info">
-					<div class="dday"><span>{{ calcDday }}</span></div>
-					<div class="badge">
-						<span></span>
-						<span class="type" v-bind:class="campaignInfo.type"></span>
+					<div class="wrap-top">
+<!--					캠페인 현재 진행중일경우-->
+						<template v-if="ingFlag">
+							<div class="dday"><span>{{ calcDday }}</span></div>
+							<div class="badge">
+								<span></span>
+								<span class="type" v-bind:class="campaignInfo.type"></span>
+							</div>
+						</template>
+<!--					캠페인 종료일경우-->
+						<template v-else>
+							<div class="end-msg"><b>{{ announceDateDisplay }}</b> 당첨자발표</div>
+						</template>
 					</div>
 					<div class="status">
-						<span></span>
-						<span></span>
-						<div class="gage"></div>
+<!--					캠페인 현재 진행중일경우-->
+						<template v-if="ingFlag">
+							<div class="count-wrap">
+								<span class="req">신청 <b>{{ campaignInfo.request }}명</b></span>
+								<span class="rec">모집 <b>{{ campaignInfo.recruit }}명</b></span>
+							</div>
+						</template>
+<!--					캠페인 종료일경우-->
+						<template v-else>
+							<span class="end-msg">모집완료</span>
+						</template>
+						<div class="gage">
+							<div class="inner" v-bind:style="{ width: calcGage + '%' }"></div>
+						</div>
 					</div>
 				</div>
 				<div class="hover">
@@ -206,10 +226,19 @@
 			props: [ 'campaignInfo' ],
 			data() {
 				return {
-					
+					ingFlag: true,
+					gagePer: 0
 				}
 			},
 			computed: {
+				announceDateDisplay: function() {
+					var fullDate = 	new Date(this.campaignInfo.announceDate),
+						mm = fullDate.getMonth(),
+						dd = fullDate.getDay(),
+						resultDate = mm+'/'+dd;
+					
+					return resultDate;
+				},
 				calcDday: function() {
 					var now = new Date(),
 						currDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()),
@@ -217,15 +246,24 @@
 						diff = (end.getTime() - currDay.getTime()) / (1000*60*60*24),
 						dday = "";
 						if(diff<1) {
-							dday = "마감";
-						}else{
+							this.ingFlag = false;
+						} else {
 							dday = "D-"+parseInt(diff);
 						}
 					
 					return dday;
 				},
 				calcGage: function() {
-
+					var req = this.campaignInfo.request,
+						rec = this.campaignInfo.recruit,
+						resultGage = parseInt(req/rec*100);
+					if(resultGage>=100) {
+						resultGage = 100;
+					}
+					if(!this.ingFlag) {
+						resultGage = 0;
+					}
+					return resultGage;
 				}
 			},
 			mounted: function() {
@@ -396,10 +434,10 @@
 						{ idx: 10, groupIdx: 2, name: 'test', displayName: '체험권' }
 					],
 					campaignList: [
-						{ idx: 1, type: 'dog', dateStart: '2018/06/25', dateEnd: '2018/06/30', announceDate: '2018/07-03', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 2, type: 'cat', dateStart: '2018/06/21', dateEnd: '2018/06/28', announceDate: '2018/07-01', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 3, type: 'cat', dateStart: '2018/06/23', dateEnd: '2018/06/25', announceDate: '2018/07-02', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 4, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/06/26', announceDate: '2018/06-27', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' }
+						{ idx: 1, type: 'dog', dateStart: '2018/06/25', dateEnd: '2018/06/30', announceDate: '2018/07/03', request: 100, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+						{ idx: 2, type: 'cat', dateStart: '2018/06/21', dateEnd: '2018/06/28', announceDate: '2018/07/01', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+						{ idx: 3, type: 'cat', dateStart: '2018/06/23', dateEnd: '2018/06/25', announceDate: '2018/07/02', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+						{ idx: 4, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/06/26', announceDate: '2018/06/27', request: 17, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' }
 					]
 				}
 				
