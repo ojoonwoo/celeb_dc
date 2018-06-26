@@ -244,6 +244,7 @@ section.campaign .list-container.campaign .campaignEl {
 	width: 297px;
 	height: 407px;
 	margin-right: 29px;
+	box-shadow: 0 0 20px 0 rgba(183, 94, 40, 0.8);
 }
 section.campaign .list-container.campaign .campaignEl:nth-of-type(4n) {
 	margin-right: 0;
@@ -346,6 +347,58 @@ section.campaign .list-container.campaign .campaignEl .frame .front-info .status
 	height: 100%;
 	border-radius: 8px;
 	background: #ff8840;
+}
+section.campaign .list-container.campaign .campaignEl .frame .hover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(34, 24, 21, 0.6);
+}
+section.campaign .list-container.campaign .campaignEl .frame .hover .wrapper {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	text-align: center;
+	transform: translate(-50%, -50%);
+}
+section.campaign .list-container.campaign .campaignEl .frame .hover .title {
+	margin-bottom: 20px;
+	line-height: 24px;
+	font-size: 20px;
+	font-weight: 700;
+	color: #ffffff;
+}
+section.campaign .list-container.campaign .campaignEl .frame .hover .desc {
+	margin-bottom: 38px;
+	line-height: 29px;
+	font-size: 20px;
+	font-weight: 300;
+	color: #ffffff;
+	text-decoration: underline;
+}
+section.campaign .list-container.campaign .campaignEl .frame .hover .button {
+	display: inline-block;
+	width: 130px;
+	background: #ffffff;
+}
+section.campaign .list-container.campaign .campaignEl .frame .hover .button span {
+	display: inline-block;
+	padding: 11px 0;
+	font-size: 20px;
+	font-weight: 700;
+	color: #ff8840;
+}
+
+.campaign-over-transition-enter-active {
+	transition: all 0.15s ease;
+}
+.campaign-over-transition-leave-active {
+	transition: all 0.3s ease;
+}
+.campaign-over-transition-enter, .campaign-over-transition-leave-to {
+	opacity: 0;
 }
 
 .content.main .section-nav {

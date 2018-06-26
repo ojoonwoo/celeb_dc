@@ -58,47 +58,55 @@
 		</div>
 	</template>
 	<template id="campaignTemplate">
-		<li class="campaignEl">
+		<li class="campaignEl" v-on:mouseover="onOver = true" v-on:mouseleave="onOver = false">
 			<div class="frame">
-				<a href="#">
+				<a href="javascript:void(0)">
 					<img v-bind:src="campaignInfo.imgSrc" alt="" width="100%">
 				</a>
-				<div class="front-info">
-					<div class="wrap-top">
-<!--					캠페인 현재 진행중일경우-->
-						<template v-if="ingFlag">
-							<div class="dday"><span>{{ calcDday }}</span></div>
-							<div class="badge">
-								<span></span>
-								<span class="type" v-bind:class="campaignInfo.type"></span>
+<!--				마우스 오버 트랜지션-->
+				<transition name="campaign-over-transition">
+					<div class="front-info" v-if="!onOver" key="front">
+						<div class="wrap-top">
+	<!--					캠페인 현재 진행중일경우-->
+							<template v-if="ingFlag">
+								<div class="dday"><span>{{ calcDday }}</span></div>
+								<div class="badge">
+									<span></span>
+									<span class="type" v-bind:class="campaignInfo.type"></span>
+								</div>
+							</template>
+	<!--					캠페인 종료일경우-->
+							<template v-else>
+								<div class="end-msg"><b>{{ announceDateDisplay }}</b> 당첨자발표</div>
+							</template>
+						</div>
+						<div class="status">
+	<!--					캠페인 현재 진행중일경우-->
+							<template v-if="ingFlag">
+								<div class="count-wrap">
+									<span class="req">신청 <b>{{ campaignInfo.request }}명</b></span>
+									<span class="rec">모집 <b>{{ campaignInfo.recruit }}명</b></span>
+								</div>
+							</template>
+	<!--					캠페인 종료일경우-->
+							<template v-else>
+								<span class="end-msg">모집완료</span>
+							</template>
+							<div class="gage">
+								<div class="inner" v-bind:style="{ width: calcGage + '%' }"></div>
 							</div>
-						</template>
-<!--					캠페인 종료일경우-->
-						<template v-else>
-							<div class="end-msg"><b>{{ announceDateDisplay }}</b> 당첨자발표</div>
-						</template>
-					</div>
-					<div class="status">
-<!--					캠페인 현재 진행중일경우-->
-						<template v-if="ingFlag">
-							<div class="count-wrap">
-								<span class="req">신청 <b>{{ campaignInfo.request }}명</b></span>
-								<span class="rec">모집 <b>{{ campaignInfo.recruit }}명</b></span>
-							</div>
-						</template>
-<!--					캠페인 종료일경우-->
-						<template v-else>
-							<span class="end-msg">모집완료</span>
-						</template>
-						<div class="gage">
-							<div class="inner" v-bind:style="{ width: calcGage + '%' }"></div>
 						</div>
 					</div>
-				</div>
-				<div class="hover">
-					<div class="title">{{ campaignInfo.title }}</div>
-					<div class="desc">{{ campaignInfo.desc }}</div>
-				</div>
+					<div class="hover" v-else key="back">
+						<div class="wrapper">
+							<div class="title">{{ campaignInfo.title }}</div>
+							<div class="desc">{{ campaignInfo.desc }}</div>
+							<a href="#" class="button">
+								<span>신청하기</span>
+							</a>
+						</div>
+					</div>
+				</transition>
 			</div>
 		</li>
 	</template>
@@ -227,7 +235,8 @@
 			data() {
 				return {
 					ingFlag: true,
-					gagePer: 0
+					gagePer: 0,
+					onOver: false
 				}
 			},
 			computed: {
@@ -268,6 +277,39 @@
 			},
 			mounted: function() {
 //				console.log(this.campaignInfo);
+			},
+			updated: function() {
+			},
+			methods: {
+//				마우스오버 트랜지션 훅
+				beforeEnter: function(el) {
+					el.style.opacity = 0;
+				},
+				enter: function(el, done) {
+					el.style.opacity = 1;
+					done();
+				},
+				afterEnter: function(el) {
+				},
+				enterCalled: function(el) {
+					
+				},
+				beforeLeave: function (el) {
+					// ...
+				},
+				// done 콜백은 CSS와 함께 사용할 때 선택 사항입니다.
+				leave: function (el, done) {
+					// ...
+					el.style.opacity = 0;
+					done()
+				},
+				afterLeave: function (el) {
+					// ...
+				},
+				// leaveCancelled은 v-show와 함께 사용됩니다.
+				leaveCancelled: function (el) {
+					// ...
+				}
 			}
 		})
 		
