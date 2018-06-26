@@ -243,7 +243,7 @@ section.campaign .list-container.campaign .campaignEl {
 	display: inline-block;
 	width: 297px;
 	height: 407px;
-	margin-right: 29px;
+	margin: 0 29px 27px 0;
 	box-shadow: 0 0 20px 0 rgba(183, 94, 40, 0.8);
 }
 section.campaign .list-container.campaign .campaignEl:nth-of-type(4n) {
