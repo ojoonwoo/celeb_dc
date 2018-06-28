@@ -8,6 +8,8 @@
 	<link rel="stylesheet" href="./css/style.css">
 <!--	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>-->
 	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!--	<script src="https://unpkg.com/vuejs-paginate@latest"></script>-->
 </head>
 <body>
 	<!-- vue template -->
@@ -167,10 +169,19 @@
 						</figcaption>
 					</a>
 				</figure>
-				
-				
 			</div>
 		</li>
+	</template>
+	<template id="paginateTemplate">
+		<div>
+			<a href="javascript:void(0)" class="button prev"><</a>
+			<ul>
+				<li v-for="(page, index) in pageList" v-bind:page-num="page" :key="page.idx" v-bind:class="{'is-active' : activePageIdx === page}">
+					<a href="javascript:void(0)">{{ page }}</a>
+				</li>
+			</ul>
+			<a href="javascript:void(0)" class="button next">></a>
+		</div>
 	</template>
 	<!-- vue template -->
 	<div id="app">
@@ -279,6 +290,16 @@
 							</ul>
 						</div>
 					</div>
+					<paginate-component :page-count="6" :product-list="productList"></paginate-component>
+<!--
+					<paginate
+							  :page-count="100"
+							  :click-handler="clickCallback"
+							  :prev-text="'<'"
+							  :next-text="'>'"
+							  :container-class="'pagination-container'">
+					</paginate>
+-->
 				</section>
 			</div>
 		</div>
@@ -293,6 +314,26 @@
 				}
 			}
 	  	})
+		
+		Vue.component('paginate-component', {
+			template: '#paginateTemplate',
+			props: [ 'productList', 'pageCount' ],
+			data() {
+				return {
+					pageList: [1, 2, 3, 4, 5, 6],
+					activePageIdx: 1
+				}
+			},
+			methods: {
+				
+			},
+			mounted: function() {
+//				console.log(this.pageCount);
+//				console.log(this.productList);
+//				this.pageList = this.productList.length;
+			}
+		})
+//		Vue.component('paginate', VuejsPaginate)
 		
 		Vue.component('product-component', {
 			template: '#productTemplate',
@@ -555,56 +596,20 @@
 
 		
 			
-		var app = new Vue({
+		new Vue({
 			el: '#app',
 			data() {
 				return {
-					currentRoute: window.location.pathname,
+					currentQuery: [],
 					scrollY: 0,
 					sectionPosition: [],
 					sectionNavPosition: [],
 					sectionNavWidth: [],
 					currentSection: 'index',
-//					selectedCate1: 'All',
-//					selectedCate2: 'All',
-					cateList1: [
-						{ idx: 1, groupIdx: 1, name: 'all', displayName: 'ALL' },
-						{ idx: 2, groupIdx: 1, name: 'dog', displayName: '강아지' },
-						{ idx: 3, groupIdx: 1, name: 'cat', displayName: '고양이' }
-					],
-					cateList2: [
-						{ idx: 1, groupIdx: 2, name: 'all', displayName: 'ALL' },
-						{ idx: 2, groupIdx: 2, name: 'fashion', displayName: '패션' },
-						{ idx: 3, groupIdx: 2, name: 'goout', displayName: '외출' },
-						{ idx: 4, groupIdx: 2, name: 'house', displayName: '하우스' },
-						{ idx: 5, groupIdx: 2, name: 'kitchen', displayName: '키친' },
-						{ idx: 6, groupIdx: 2, name: 'food', displayName: '푸드' },
-						{ idx: 7, groupIdx: 2, name: 'grooming/clean', displayName: '그루밍/위생' },
-						{ idx: 8, groupIdx: 2, name: 'toy', displayName: '장난감' },
-						{ idx: 9, groupIdx: 2, name: 'book', displayName: '서적' },
-						{ idx: 10, groupIdx: 2, name: 'test', displayName: '체험권' }
-					],
-					campaignList: [
-						{ idx: 1, type: 'dog', dateStart: '2018/06/25', dateEnd: '2018/06/30', announceDate: '2018/07/03', request: 100, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 2, type: 'cat', dateStart: '2018/06/21', dateEnd: '2018/06/28', announceDate: '2018/07/01', request: 20, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 3, type: 'cat', dateStart: '2018/06/23', dateEnd: '2018/06/25', announceDate: '2018/07/02', request: 22, recruit: 60, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 4, type: 'dog', dateStart: '2018/06/19', dateEnd: '2018/06/29', announceDate: '2018/06/27', request: 1, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 5, type: 'dog', dateStart: '2018/06/19', dateEnd: '2018/06/27', announceDate: '2018/06/27', request: 30, recruit: 70, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 6, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/06/25', announceDate: '2018/06/27', request: 15, recruit: 20, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 7, type: 'dog', dateStart: '2018/06/19', dateEnd: '2018/06/30', announceDate: '2018/06/27', request: 9, recruit: 15, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
-						{ idx: 8, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/07/05', announceDate: '2018/06/27', request: 19, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' }
-					],
-					productList: [
-//						캠페인리스트의 데이터와 정보 동일?
-						{ idx: 1, parentIdx: 8, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
-						{ idx: 2, parentIdx: 1, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
-						{ idx: 3, parentIdx: 4, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
-						{ idx: 4, parentIdx: 3, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
-						{ idx: 5, parentIdx: 5, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
-						{ idx: 6, parentIdx: 6, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
-						{ idx: 7, parentIdx: 7, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
-						{ idx: 8, parentIdx: 2, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'}
-					],
+					cateList1: [],
+					cateList2: [],
+					campaignList: [],
+					productList: [],
 					orderbyList1: [
 						{ idx: 1, text: '등록순', target: 'campaign' },
 						{ idx: 2, text: '인기순', target: 'campaign' }
@@ -612,7 +617,13 @@
 					orderbyList2: [
 						{ idx: 1, text: '진행순', target: 'product' },
 						{ idx: 2, text: '인기순', target: 'product' }
-					]
+					],
+//					게시물 총 갯수
+					productTotalCount: '',
+//					현재 페이징 넘버
+					paginateStartNum: '',
+//					한 화면에 출력할 갯수
+					paginateSize: '',
 				}
 				
 			},
@@ -648,18 +659,61 @@
 				window.addEventListener('scroll', this.handleScroll);
 				var query = window.location.search.substring(1);
 				var qs = parse_query_string(query);
-				console.log(qs);
+				this.currentQuery = qs;
+				console.log(this.currentQuery);
+				
+				this.cateList1 = [
+					{ idx: 1, groupIdx: 1, name: 'all', displayName: 'ALL' },
+					{ idx: 2, groupIdx: 1, name: 'dog', displayName: '강아지' },
+					{ idx: 3, groupIdx: 1, name: 'cat', displayName: '고양이' }
+				];
+				this.cateList2 = [
+					{ idx: 1, groupIdx: 2, name: 'all', displayName: 'ALL' },
+					{ idx: 2, groupIdx: 2, name: 'fashion', displayName: '패션' },
+					{ idx: 3, groupIdx: 2, name: 'goout', displayName: '외출' },
+					{ idx: 4, groupIdx: 2, name: 'house', displayName: '하우스' },
+					{ idx: 5, groupIdx: 2, name: 'kitchen', displayName: '키친' },
+					{ idx: 6, groupIdx: 2, name: 'food', displayName: '푸드' },
+					{ idx: 7, groupIdx: 2, name: 'grooming/clean', displayName: '그루밍/위생' },
+					{ idx: 8, groupIdx: 2, name: 'toy', displayName: '장난감' },
+					{ idx: 9, groupIdx: 2, name: 'book', displayName: '서적' },
+					{ idx: 10, groupIdx: 2, name: 'test', displayName: '체험권' }
+				];
+				this.productList = [
+					//						캠페인리스트의 데이터와 정보 동일?
+					{ idx: 1, parentIdx: 8, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 2, parentIdx: 1, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 3, parentIdx: 4, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 4, parentIdx: 3, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 5, parentIdx: 5, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 6, parentIdx: 6, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 7, parentIdx: 7, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 8, parentIdx: 2, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 9, parentIdx: 2, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 10, parentIdx: 2, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 11, parentIdx: 2, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+					{ idx: 12, parentIdx: 2, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'}
+				];
+				this.campaignList = [
+					{ idx: 1, type: 'dog', dateStart: '2018/06/25', dateEnd: '2018/06/30', announceDate: '2018/07/03', request: 100, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+					{ idx: 2, type: 'cat', dateStart: '2018/06/21', dateEnd: '2018/06/28', announceDate: '2018/07/01', request: 20, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+					{ idx: 3, type: 'cat', dateStart: '2018/06/23', dateEnd: '2018/06/25', announceDate: '2018/07/02', request: 22, recruit: 60, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+					{ idx: 4, type: 'dog', dateStart: '2018/06/19', dateEnd: '2018/06/29', announceDate: '2018/06/27', request: 1, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+					{ idx: 5, type: 'dog', dateStart: '2018/06/19', dateEnd: '2018/06/27', announceDate: '2018/06/27', request: 30, recruit: 70, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+					{ idx: 6, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/06/25', announceDate: '2018/06/27', request: 15, recruit: 20, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+					{ idx: 7, type: 'dog', dateStart: '2018/06/19', dateEnd: '2018/06/30', announceDate: '2018/06/27', request: 9, recruit: 15, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
+					{ idx: 8, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/07/05', announceDate: '2018/06/27', request: 19, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' }
+				];
+				
 			},
 			mounted: function() {
 				this.$nextTick(function() {
 					this.$refs.contentBox.querySelectorAll('section').forEach( el => {
 						this.sectionPosition.push(el.offsetTop);
 					});
-//					this.$refs.sectionNav.querySelectorAll('li').forEach( el => {
-//						this.sectionNavPosition.push(el.offsetLeft);
-//						this.sectionNavWidth.push(el.offsetWidth);
-//					});
 				});
+				this.productTotalCount = this.productList.length;
+				console.log(this.productTotalCount);
 //				console.log("섹션위치:"+this.sectionPosition);
 //				console.log("넓이:"+this.sectionNavWidth);
 //				console.log("위치:"+this.sectionNavPosition);
