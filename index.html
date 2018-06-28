@@ -60,9 +60,7 @@
 	<template id="campaignTemplate">
 		<li class="campaignEl" v-on:mouseover="onOver = true" v-on:mouseleave="onOver = false">
 			<div class="frame">
-				<a href="javascript:void(0)">
-					<img v-bind:src="campaignInfo.imgSrc" alt="" width="100%">
-				</a>
+				<img v-bind:src="campaignInfo.imgSrc" alt="" width="100%">
 <!--				마우스 오버 트랜지션-->
 				<transition name="campaign-over-transition">
 					<div class="front-info" v-if="!onOver" key="front">
@@ -116,7 +114,13 @@
 		</ul>
 	</template>
 	<template id="orderbyTemplate">
-		<a class="orderby" href="javacript:void(0)" v-bind:class="{ 'is-active' : activeOrderbyName === orderby }" v-on:click="clickEvent(orderby)">{{ orderby }}</a>
+		<ul>
+			<li v-for="(orderby, index) in orderbyList" v-bind:orderby-list="orderbyList" :key="orderby.idx" v-bind:class="{ 'is-active' : activeOrderbyIdx === orderby.idx }">
+				<a class="orderby" href="javacript:void(0)" v-on:click="clickEvent(orderby.idx, orderby.text, orderby.target)">{{ orderby.text }}</a>
+			</li>
+		</ul>
+<!--		<a class="orderby" href="javacript:void(0)" v-bind:class="{ 'is-active' : activeOrderbyIdx === orderbyIdx }" v-on:click="clickEvent(orderbyIdx, orderby, orderbyTarget, $event)">{{ orderby }}</a>-->
+<!--		<a class="orderby" href="javacript:void(0)" v-bind:class="{ 'is-active' : isSelected(orderbyIdx) }" v-on:click="clickEvent(orderbyIdx, orderby, orderbyTarget)">{{ orderby }}</a>-->
 	</template>
 	<template id="campaignCategoryTemplate">
 		<!--	v-bind:class="activeIndex == cateInfo.idx ? 'is-active' : ''"-->
@@ -130,6 +134,43 @@
 		<ul>
 			<campaign-category-component v-for="(cate, index) in cateList" v-bind:cate-info="cate" :key="cate.idx" v-on:cate-click="setCate"></campaign-category-component>
 		</ul>
+	</template>
+	<template id="productCategoryTemplate">
+		<div class="select-wrap">
+			<select name="" id="" v-model="selected" v-on:change="selectChange" class="select-box black-border box-shadow">
+				<option disabled value="">{{ cateType }}</option>
+				<option v-for="(cate, index) in cateList" :key="cate.idx" :value="cate.groupIdx + '_' + cate.idx">
+					{{ cate.displayName }}
+				</option>
+			</select>
+		</div>
+	</template>
+	<template id="productContainerTemplate">
+		<ul>
+			<product-component v-for="(product, index) in productList" v-bind:product-info="product" :key="product.idx" v-on:productClick=""></product-component>
+		</ul>
+	</template>
+	<template id="productTemplate">
+		<li class="productEl">
+			<div class="frame">
+				<figure>
+					<a href="javascript:void(0)">
+						<div class="img">
+							<img v-bind:src="productInfo.imgSrc" alt="" width="100%">
+						</div>
+						<figcaption>
+							<div class="name">{{productInfo.title}}</div>
+							<div class="desc">{{productInfo.desc}}</div>
+							<div class="price">{{productInfo.price}}</div>
+							<div class="discount _01"></div>
+							<div class="discount _02"></div>
+						</figcaption>
+					</a>
+				</figure>
+				
+				
+			</div>
+		</li>
 	</template>
 	<!-- vue template -->
 	<div id="app">
@@ -171,13 +212,13 @@
 						</div>
 					</div>
 					<div class="button-area">
-						<a href="javascript:void(0)" class="button black-border shadow line-motion">
+						<a href="javascript:void(0)" class="button black-border box-shadow line-motion">
 							<span>
 								<span>About 셀럽디씨</span>
 							</span>
 						</a>
 						<span>or</span>
-						<a href="javascript:void(0)" class="button black-border shadow line-motion">
+						<a href="javascript:void(0)" class="button black-border box-shadow line-motion">
 							<span>
 								<span>혜택 받기 ></span>
 							</span>
@@ -203,15 +244,15 @@
 							<campaign-category-container :cate-list="cateList2" class="cate-list _02"></campaign-category-container>
 						</div>
 						<div class="orderby-wrap">
-							<orderby-component orderby="등록순"></orderby-component>
-							<orderby-component orderby="인기순"></orderby-component>
+							<orderby-component :orderby-list="orderbyList1" v-on:orderby-change="orderbyChange"></orderby-component>
+<!--							<orderby-component orderby="인기순" orderby-target="campaign" orderby-idx="2" v-on:orderby-change="orderbyChange"></orderby-component>-->
 						</div>
 						<div class="list-container campaign">
 							<ul>
 								<campaign-container :campaign-list="campaignList"></campaign-container>
 							</ul>
 						</div>
-						<button type="button" class="button list-more black-border shadow" v-on:click="loadMoreCampaign">
+						<button type="button" class="button list-more black-border box-shadow" v-on:click="loadMoreCampaign">
 							<span>더보기+</span>
 						</button>
 					</div>
@@ -225,7 +266,17 @@
 					</div>
 					<div class="discount-list">
 						<div class="cate-wrap">
-							
+							<product-category-component :cate-list="cateList1" class="cate-list _01" v-on:cate-selected="productCateChange"></product-category-component>
+							<product-category-component :cate-list="cateList2" class="cate-list _02" v-on:cate-selected="productCateChange"></product-category-component>
+						</div>
+						<div class="orderby-wrap">
+							<orderby-component :orderby-list="orderbyList2" v-on:orderby-change="orderbyChange"></orderby-component>
+<!--							<orderby-component orderby="인기순" orderby-target="product" orderby-idx="2" v-on:orderby-change="orderbyChange"></orderby-component>-->
+						</div>
+						<div class="list-container product">
+							<ul>
+								<product-container :product-list="productList"></product-container>
+							</ul>
 						</div>
 					</div>
 				</section>
@@ -242,6 +293,77 @@
 				}
 			}
 	  	})
+		
+		Vue.component('product-component', {
+			template: '#productTemplate',
+			props: [ 'productInfo' ],
+			data() {
+				return {
+					
+				}
+			},
+			methods: {
+//				priceComma: function(price) {
+//					console.log(price);
+//					var resultPrice = price;
+//					return resultPrice;
+//				}
+			}
+		})
+
+		Vue.component('product-container', {
+			template: '#productContainerTemplate',
+			props: [ 'productList' ],
+			data() {
+				return {
+				}
+			}
+		})
+		
+		Vue.component('product-category-component', {
+			template: '#productCategoryTemplate',
+			props: [ 'cateList' ],
+			data() {
+				return {
+//					selected: this.cateList[0].groupIdx + '_' + '1'
+					selected: '',
+				}
+			},
+			computed: {
+				cateType: function() {
+					var cateType;
+					switch(this.cateList[0].groupIdx) {
+						case 1:
+							cateType = "동물종류";
+							break;
+						case 2:
+							cateType = "카테고리";
+							break;
+					}
+					return cateType;
+				}
+			},
+			methods: {
+				selectChange: function() {
+//					console.log(this.selected);
+					var select = this.selected;
+					var temp = select.split('_');
+					//				temp[0]
+					this.$emit('cate-selected', temp[0], temp[1]);
+				}
+			},
+			mounted: function() {
+//				console.log(this.cateList[0].groupIdx);
+//				console.log(this.selected);
+			},
+			updated: function() {
+//				console.log(this.selected);
+//				var select = this.selected;
+//				var temp = select.split('_');
+//				temp[0]
+//				console.log(this);
+			}
+		})
 		
 		Vue.component('campaign-component', {
 			template: '#campaignTemplate',
@@ -293,6 +415,7 @@
 //				console.log(this.campaignInfo);
 			},
 			updated: function() {
+//				console.log(this);
 			},
 			methods: {
 			}
@@ -303,31 +426,32 @@
 			props: [ 'campaignList' ],
 			data() {
 				return {
-//					campaignInfo: this.campaignList
+//					
 				}
-			},
-			created: function() {
-				
-			},
-			mounted: function() {
 			}
 		})
 		
-		var orderByData = { activeOrderbyName: '등록순' };
 		Vue.component('orderby-component', {
 			template: '#orderbyTemplate',
-			props: [ 'orderby' ],
+			props: [ 'orderbyList' ],
 			data() {
-				return orderByData;
+				return {
+					activeOrderbyIdx: '',
+				}
+				
 			},
 			methods: {
-				clickEvent: function(orderBy) {
-					this.activeOrderbyName = orderBy;
-//					console.log(this.activeOrderbyName);
+				clickEvent: function(orderbyIdx, orderby, orderbyTarget, event) {
+					this.activeOrderbyIdx = orderbyIdx;
+					this.$emit('orderby-change', orderbyIdx, orderby, orderbyTarget);
 				}
 			},
 			mounted: function() {
-//				console.log(orderByData.activeOrderbyName);
+				this.activeOrderbyIdx = 1;
+			},
+			beforeUpdate: function() {
+			},
+			updated: function() {
 			}
 		})
 		
@@ -335,7 +459,6 @@
 			template: '#campaignCategoryTemplate',
 			props: [ 'cateInfo' ],
 			data() {
-//				return shareData;
 				return {
 					activeIndex: 0
 				}
@@ -470,6 +593,25 @@
 						{ idx: 6, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/06/25', announceDate: '2018/06/27', request: 15, recruit: 20, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
 						{ idx: 7, type: 'dog', dateStart: '2018/06/19', dateEnd: '2018/06/30', announceDate: '2018/06/27', request: 9, recruit: 15, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' },
 						{ idx: 8, type: 'cat', dateStart: '2018/06/19', dateEnd: '2018/07/05', announceDate: '2018/06/27', request: 19, recruit: 30, imgSrc: './images/campaign_sample_01.jpg', title: '위 러브캣 LEMON BALL 놀이장난감', desc: '상품과 고양이를 함께 인증해주세요' }
+					],
+					productList: [
+//						캠페인리스트의 데이터와 정보 동일?
+						{ idx: 1, parentIdx: 8, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+						{ idx: 2, parentIdx: 1, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+						{ idx: 3, parentIdx: 4, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+						{ idx: 4, parentIdx: 3, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+						{ idx: 5, parentIdx: 5, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+						{ idx: 6, parentIdx: 6, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+						{ idx: 7, parentIdx: 7, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'},
+						{ idx: 8, parentIdx: 2, imgSrc: './images/product_sample_01.jpg', title: '바조', desc: '노즈워크 얼굴표정 서류가방', price: '121440', discount1: '108688', discount2: '104688'}
+					],
+					orderbyList1: [
+						{ idx: 1, text: '등록순', target: 'campaign' },
+						{ idx: 2, text: '인기순', target: 'campaign' }
+					],
+					orderbyList2: [
+						{ idx: 1, text: '진행순', target: 'product' },
+						{ idx: 2, text: '인기순', target: 'product' }
 					]
 				}
 				
@@ -492,6 +634,14 @@
 				loadMoreCampaign: function() {
 //					campaignList 배열에 push
 					console.log("캠페인 추가 불러오기");
+				},
+				productCateChange: function(groupIdx, idx) {
+//					기획전 상품 데이터 카테고리에 맞춰 변경, 파라미터 저장
+					console.log(groupIdx+','+idx);
+				},
+				orderbyChange: function(orderbyIdx, orderby, orderbyTarget) {
+//					소팅 타겟으로 분기 orderbyTarget
+					console.log(orderbyIdx+','+orderby+','+orderbyTarget);
 				}
 			},
 			created: function() {

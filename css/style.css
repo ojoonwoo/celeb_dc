@@ -145,7 +145,7 @@ section > .title-area {
 	text-align: center;
 }
 section > .title-area h2 {
-	margin-bottom: 20px;
+	margin-bottom: 32px;
 }
 section.campaign > .title-area {
 	margin-bottom: 68px;
@@ -154,9 +154,9 @@ section.campaign > .title-area h2 img {
 	width: 418px;
 }
 section > .title-area p {
-	font-size: 18px;
+	font-size: 24px;
 	font-weight: 300;
-	line-height: 24px;
+	line-height: 29px;
 }
 section > .title-area p:last-child {
 	font-weight: 400;
@@ -222,7 +222,7 @@ section.campaign .cate-wrap .cate a span.cat:after {
 section.campaign .cate-wrap .cate.is-active a span.dog:after {background: url(../images/dog@2x_orange.png) center / 36px 26px no-repeat;}
 section.campaign .cate-wrap .cate.is-active a span.cat:after {background: url(../images/cat@2x_orange.png) center / 25px 26px no-repeat;}
 section.campaign .cate-wrap .cate-list._02 {
-	margin: 24px 0 41px;
+	margin: 34px 0 82px;
 }
 section.campaign .cate-wrap .cate-list._02 .cate {
 	width: 118px;
@@ -232,22 +232,25 @@ section.campaign .cate-wrap .cate-list._02 .cate a span {
 	font-size: 20px;
 }
 section.campaign .orderby-wrap {
-	text-align: center;
+	text-align: right;
 	font-size: 0;
-	padding-bottom: 19px;
-	border-bottom: 1px solid #ffffff;
+	padding-bottom: 23px;
 }
-section.campaign .orderby-wrap a {
+section .orderby-wrap li {
 	display: inline-block;
-	padding: 0 20px;
+	margin-right: 40px;
+}
+section .orderby-wrap li a {
 	font-size: 20px;
 	color: #ffffff;
 }
-section.campaign .orderby-wrap a.is-active {
+section .orderby-wrap li:last-child {
+	margin-right: 0;
+}
+section .orderby-wrap li.is-active {
 	font-weight: 700;
 }
 section.campaign .list-container.campaign {
-	padding: 33px 0;
 	font-size: 0;
 }
 section.campaign .list-container.campaign .campaignEl {
@@ -436,6 +439,87 @@ section.discount > .title-area h2 {
 section.discount > .title-area h2 img {
 	width: 413px;
 }
+section.discount .cate-wrap {
+	font-size: 0;
+	text-align: center;
+}
+section.discount .select-wrap {
+	position: relative;
+	display: inline-block;
+	width: 230px;
+	height: 59px;
+	vertical-align: top;
+}
+section.discount .select-wrap:first-child {
+	margin-right: 63px;
+}
+section.discount .select-wrap .select-box {
+	width: 100%;
+	height: 100%;
+	padding-left: 25px;
+	font-size: 22px;
+	color: #d3d1d0;
+	background: #ffffff;
+}
+section.discount .select-wrap:after {
+	content: "";
+	position: absolute;
+	display: inline-block;
+	top: 50%;
+	right: 25px;
+	width: 15px;
+	margin-top: -7px;
+	height: 12px;
+	background: url(../images/select_arrow@2x.png) 0 0 / 15px 12px no-repeat;
+}
+section.discount .discount-list {
+	width: 1277px;
+	margin: 0 auto;
+}
+section.discount .discount-list .cate-wrap {
+	margin-bottom: 72px;
+}
+section.discount .orderby-wrap {
+	text-align: right;
+	font-size: 0;
+	padding-bottom: 23px;
+}
+section.discount .orderby-wrap a {
+	color: #221815;
+}
+section.discount .discount-list .list-container {
+	font-size: 0;
+}
+section.discount .discount-list .list-container .productEl {
+	display: inline-block;
+	width: 297px;
+	margin: 0 29px 39px 0;
+}
+section.discount .discount-list .list-container .productEl:nth-of-type(4n) {
+	margin-right: 0;
+}
+section.discount .discount-list .list-container .productEl figure .img {
+	width: 100%;
+	height: 297px;
+}
+section.discount .discount-list .list-container .productEl figure figcaption {
+	padding: 18px 20px 0;
+	font-size: 20px;
+	text-align: center;
+}
+section.discount .discount-list .list-container .productEl figure figcaption .name {
+	text-decoration: underline;
+	letter-spacing: 1.4px;
+}
+section.discount .discount-list .list-container .productEl figure figcaption .desc {
+	margin: 16px 0 10px;
+	font-weight: 100;
+	letter-spacing: 1.4px;
+}
+section.discount .discount-list .list-container .productEl figure figcaption .price {
+	text-decoration: line-through;
+	letter-spacing: 1.4px;
+}
 
 .content.main .section-nav {
 	position: fixed;
@@ -492,11 +576,11 @@ section.discount > .title-area h2 img {
 }
 */
 /* public */
-.button.black-border {
+.black-border {
 	border: 4px solid #221815;
 	background: #ffffff;
 }
-.button.black-border.shadow {
+.box-shadow {
 	box-shadow: 3px 3px 7px 3px rgba(68, 63, 59, 0.13);
 }
 .button.line-motion > span {
@@ -521,5 +605,9 @@ section.discount > .title-area h2 img {
 	margin-left: -50%;
 	width: 100%;
 	height: 6px;
+}
+.select-box {
+/*	border: 5px solid #221815;*/
+/*	background: url(../images/select_arrow@2x.png) 100% 50% / 15px 12px no-repeat #ffffff;*/
 }
 /* public */
