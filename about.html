@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>셀럽 DC</title>
+		<link rel="stylesheet" href="./css/reset.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./css/style.css">
+		<!--	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<!-- vue template -->
+		<template id="headerTemplate">
+			<div id="header">
+				<div class="inner">
+					<h1 class="logo">
+						<img src="./images/Celeb@2x.png" alt="CelebDC">
+					</h1>
+					<nav class="global-nav">
+						<ul>
+							<li style="width:40px;" v-bind:class="{ 'is-active' : currentRoute === 'login' }">
+								<a class="button line-motion" href="javascript:void(0)" v-on:click="loginOut">
+									<span>
+										<span>Login</span>
+									</span>
+								</a>
+							</li>
+							<li style="width:43px;" v-bind:class="{ 'is-active' : currentRoute === 'about' }">
+								<a class="button line-motion" href="about.html">
+									<span>
+										<span>About</span>
+									</span>
+								</a>
+							</li>
+							<li style="width:85px;">
+								<a class="button line-motion" href="#">
+									<span>
+										<span>서비스 가이드</span>
+									</span>
+								</a>
+							</li>
+							<li style="width:31px;">
+								<a class="button line-motion" href="#">
+									<span>
+										<span>FAQ</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a class="" href="#">
+									<span>광고주</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</template>
+		<template id="tabContainer">
+			<ul class="tab-wrapper">
+				<li v-for="(tab, index) in tabList" :key="tab" class="tab" v-bind:class="{ 'is-active' : currentTab === tab }">
+					<a href="javascript:void(0)" class="button line-motion" v-on:click="tabClicked(tab)">
+						<span>
+							<span>{{ tab }}</span>
+						</span>
+					</a>
+				</li>
+			</ul>
+		</template>
+		<!-- vue template -->
+		<div id="app">
+			<div class="container">
+				<header-component :current-route="currentRoute"></header-component>
+				<div class="content about" ref="contentBox">
+					<section class="main">
+						<div class="slider-frame">
+							<div class="slider">
+								<div class="slide">
+									<img src="./images/about_main_slide_01.png" alt="">
+									<p>나보다 잘 나가는 강아지, 고양이 SNS계정</p>
+									<p>셀럽 D.C에선 계정만 등록하면 누구나 무료 협찬!</p>
+								</div>
+							</div>
+						</div>
+						<div class="button-area">
+							<a href="javascript:void(0)" class="button black-border box-shadow line-motion">
+								<span>
+									<span>CAMPAIGN ></span>
+								</span>
+							</a>
+						</div>
+						<div class="scroll-down">
+							<img class="arr1" src="./images/index_arrow_01.png" alt="">
+							<img class="arr2" src="./images/index_arrow_02.png" alt="">
+						</div>
+					</section>
+					<section class="guide">
+						<div class="title">
+							<img src="./images/about_service_title.png" alt="">
+						</div>
+						<tab-container :current-tab="currentTab" :tab-list="tabList" v-on:tab-clicked="changeTab"></tab-container>
+						<div class="tab-content">
+							<transition-group name="content-fade" mode="out-in">
+								<div v-if="currentTab == '캠페인 프로세스'" key="1">{{currentTab}}</div>
+								<div v-if="currentTab == '이것만은 지켜주세요!'" key="2">{{currentTab}}</div>
+								<div v-if="currentTab == '포스팅 작성 가이드'" key="3">{{currentTab}}</div>
+								<div v-if="currentTab == '게시물 URL 확인방법'" key="4">{{currentTab}}</div>
+								<div v-if="currentTab == '리뷰비 환급'" key="5">{{currentTab}}</div>
+							</transition-group>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+		<script>
+			Vue.component('header-component', {
+				template: '#headerTemplate',
+				props: ['currentRoute'],
+				methods: {
+					loginOut: function() {
+						console.log('asd');
+					}
+				},
+				mounted: function() {
+				}
+			})
+			
+			Vue.component('tab-container', {
+				template: '#tabContainer',
+				props: [ 'currentTab', 'tabList' ],
+				data() {
+					return {
+					}
+				},
+				methods: {
+					tabClicked: function(tab) {
+						this.$emit('tab-clicked', tab);
+					}	
+				},
+				created: function() {
+				},
+				mounted: function() {
+				}
+			})
+
+			new Vue({
+				el: '#app',
+				data() {
+					return {
+						currentRoute: window.location.pathname.split('/')[2].split('.')[0],
+						currentTab: '',
+						tabList: ['캠페인 프로세스', '이것만은 지켜주세요!', '포스팅 작성 가이드', '게시물 URL 확인방법', '리뷰비 환급']
+					}
+				},
+				methods: {
+					changeTab: function(tab) {
+						this.currentTab = tab;
+					}
+				},
+				created: function() {
+					this.currentTab = '캠페인 프로세스';
+				},
+				mounted: function() {
+				},
+				beforeUpdate: function() {
+					//				console.log("beforeUpdate");
+				},
+				updated: function() {
+					//				console.log("updated");
+				},
+				destroyed: function() {
+					//				console.log("destroyed");
+				}
+			})
+			
+		</script>
+	</body>
+</html>
