@@ -614,6 +614,7 @@ section.discount .discount-list .list-container .productEl figure figcaption .pr
 }
 .content.about section.main .button-area .button > span:before {
 	background: #ff906a;
+	bottom: 13px;
 }
 .content.about section.main .button-area .button span span {
 	font-size: 22px;
@@ -659,7 +660,7 @@ section.discount .discount-list .list-container .productEl figure figcaption .pr
 	font-size: 0;
 	width: 1418px;
 	margin: 0 auto 83px;
-	border-bottom: 3px solid #d3d1d0;
+	border-bottom: 1px solid #d3d1d0;
 }
 .content.about section.guide .tab-wrapper .tab {
 	display: inline-block;
@@ -678,6 +679,78 @@ section.discount .discount-list .list-container .productEl figure figcaption .pr
 	width: 1418px;
 	margin: 0 auto;
 	text-align: center;
+}
+.content.about section.guide .tab-content .slide-outer {
+	position: relative;
+	width: 551px;
+/*	height: 587px;*/
+	margin: 0 auto;
+/*	padding: 10px 16px;*/
+	padding: 1px 5px;
+}
+.content.about section.guide .tab-content .slide-outer .iphone {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(../images/iphone@2x.png) 0 0 / cover no-repeat;
+	width: 551px;
+	height: 587px;
+	z-index: 2;
+}
+.content.about section.guide .tab-content .slide-outer .slide img {
+	height: 586px;
+}
+.content.about section.guide .tab-content .slide-outer .owl-carousel {
+/*	width: 100% !important;*/
+/*	height: 100%;*/
+}
+.content.about section.guide .tab-content .slide-outer .owl-carousel .owl-stage-outer {
+/*	height: 100%;*/
+	border-top-left-radius: 75px;
+	border-top-right-radius: 75px;
+}
+.content.about section.guide .tab-content .slide-outer .owl-nav {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	transform: translateY(-50%);
+}
+.content.about section.guide .tab-content .slide-outer .owl-nav > button {
+	width: 43px;
+	height: 124px;
+	font-size: 0;
+	position: absolute;
+}
+.content.about section.guide .tab-content .slide-outer .owl-prev {
+	left: -115px;
+	background: url(../images/about_process_arrow_left_on.png) 0 0 / 43px 124px no-repeat;
+}
+.content.about section.guide .tab-content .slide-outer .owl-prev.disabled {
+	background: url(../images/about_process_arrow_left_off.png) 0 0 / 43px 124px no-repeat;
+}
+.content.about section.guide .tab-content .slide-outer .owl-next {
+	right: -115px;
+	background: url(../images/about_process_arrow_right_on.png) 0 0 / 43px 124px no-repeat;
+}
+.content.about section.guide .tab-content .slide-outer .owl-next.disabled {
+	background: url(../images/about_process_arrow_right_off.png) 0 0 / 43px 124px no-repeat;
+}
+.content.about section.guide .tab-content .slide-outer .owl-dots {
+	margin-top: 99px;
+}
+.content.about section.guide .tab-content .slide-outer .owl-dots .owl-dot {
+	width: 23px;
+	height: 23px;
+	border-radius: 50%;
+	background: #e0ccc6;
+	margin-right: 26px;
+}
+.content.about section.guide .tab-content .slide-outer .owl-dots .owl-dot:last-child {
+	margin-right: 0;
+}
+.content.about section.guide .tab-content .slide-outer .owl-dots .owl-dot.active {
+	background: #ff8840;
 }
 .content-fade-enter-active, content-fade-leave-active {
 	transition: opacity .6s ease;

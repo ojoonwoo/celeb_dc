@@ -6,8 +6,10 @@
 		<link rel="stylesheet" href="./css/reset.css">
 		<link rel="stylesheet" href="./css/base.css">
 		<link rel="stylesheet" href="./css/style.css">
+		<link rel="stylesheet" href="./lib/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css">
 		<!--	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="./lib/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
 		<script src="https://unpkg.com/vue/dist/vue.js"></script>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	</head>
@@ -104,11 +106,35 @@
 						<tab-container :current-tab="currentTab" :tab-list="tabList" v-on:tab-clicked="changeTab"></tab-container>
 						<div class="tab-content">
 							<transition-group name="content-fade" mode="out-in">
-								<div v-if="currentTab == '캠페인 프로세스'" key="1">{{currentTab}}</div>
-								<div v-if="currentTab == '이것만은 지켜주세요!'" key="2">{{currentTab}}</div>
-								<div v-if="currentTab == '포스팅 작성 가이드'" key="3">{{currentTab}}</div>
-								<div v-if="currentTab == '게시물 URL 확인방법'" key="4">{{currentTab}}</div>
-								<div v-if="currentTab == '리뷰비 환급'" key="5">{{currentTab}}</div>
+								<div v-show="currentTab == '캠페인 프로세스'" key="1">
+									<div class="slide-outer">
+										<div class="owl-carousel">
+											<div class="slide">
+												<img src="./images/about_process_img_01.png" alt="">
+											</div>
+											<div class="slide">
+												<img src="./images/about_process_img_02.png" alt="">
+											</div>
+											<div class="slide">
+												<img src="./images/about_process_img_03.png" alt="">
+											</div>
+											<div class="slide">
+												<img src="./images/about_process_img_04.png" alt="">
+											</div>
+											<div class="slide">
+												<img src="./images/about_process_img_05.png" alt="">
+											</div>
+											<div class="slide">
+												<img src="./images/about_process_img_06.png" alt="">
+											</div>
+										</div>
+										<div class="iphone"></div>
+									</div>
+								</div>
+								<div v-show="currentTab == '이것만은 지켜주세요!'" key="2">{{currentTab}}</div>
+								<div v-show="currentTab == '포스팅 작성 가이드'" key="3">{{currentTab}}</div>
+								<div v-show="currentTab == '게시물 URL 확인방법'" key="4">{{currentTab}}</div>
+								<div v-show="currentTab == '리뷰비 환급'" key="5">{{currentTab}}</div>
 							</transition-group>
 						</div>
 					</section>
@@ -164,6 +190,7 @@
 					this.currentTab = '캠페인 프로세스';
 				},
 				mounted: function() {
+					
 				},
 				beforeUpdate: function() {
 					//				console.log("beforeUpdate");
@@ -175,7 +202,14 @@
 					//				console.log("destroyed");
 				}
 			})
-			
+			$(document).ready(function(){
+				$(".owl-carousel").owlCarousel({
+					nav: true,
+					dots: true,
+					items: 1,
+					//							autoWidth: true
+				});
+			});
 		</script>
 	</body>
 </html>
